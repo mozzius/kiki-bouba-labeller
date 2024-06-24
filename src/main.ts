@@ -15,7 +15,7 @@ const subscribe = async () => {
       m.ops.forEach((op) => {
         if (AppBskyFeedLike.isRecord(op.payload)) {
           if (op.payload.subject.uri.includes(did)) {
-            judge(m.repo).catch(console.error);
+            judge(m.repo).catch((err) => console.error(err.message));
           }
         }
       });

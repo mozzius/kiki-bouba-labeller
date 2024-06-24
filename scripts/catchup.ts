@@ -3,11 +3,20 @@ import { judge } from "src/judge.js";
 
 const agent = await getAgent();
 
-const likes = await agent.api.app.bsky.feed.getLikes({
-  uri: `at://${did}/app.bsky.labeler.service/self`,
-  limit: 50,
-});
+const likes = [];
+let cursor;
 
-for (const like of likes.data.likes) {
+while (true) {
+  const { data } = await agent.api.app.bsky.feed.getLikes({
+    uri: `at://${did}/app.bsky.labeler.service/self`,
+    limit: 100,
+    cursor,
+  });
+  likes.push(...data.likes);
+  cursor = data.cursor;
+  if (!cursor) break;
+}
+
+for (const like of likes) {
   await judge(like.actor.did).catch((err) => console.error(err.message));
 }

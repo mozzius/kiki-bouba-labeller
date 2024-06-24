@@ -1,0 +1,31 @@
+{
+  "name": "kiki-bouba-labeller",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish-config": "tsx scripts/publish.ts",
+    "start": "tsx src/main.ts",
+    "dev": "tsx --watch src/main.ts"
+  },
+  "keywords": [],
+  "author": "Samuel Newman <mozzius@protonmail.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631",
+  "dependencies": {
+    "@ai-sdk/openai": "^0.0.33",
+    "@atproto/api": "^0.12.21",
+    "ai": "^3.2.5",
+    "atproto-firehose": "^0.2.2",
+    "canvas": "^2.11.2",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.15.7",
+    "typescript": "^5.5.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.8"
+  }
+}

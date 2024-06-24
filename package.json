@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish-config": "tsx scripts/publish.ts",
+    "catchup": "tsx scripts/catchup.ts",
     "start": "tsx src/main.ts",
     "dev": "tsx --watch src/main.ts"
   },

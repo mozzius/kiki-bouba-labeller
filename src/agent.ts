@@ -14,3 +14,7 @@ export const getAgent = async () => {
 };
 
 export const did = await getAgent().then((agent) => agent.session!.did);
+
+BskyAgent.configure({
+  appLabelers: [did],
+});

@@ -13,10 +13,10 @@ export const judge = async (subject: string) => {
   if (profile.data.labels?.some((label) => label.src === did))
     throw new Error("Already judged");
 
-
-  if (subject.charCodeAt(17) % 2 === 0) {
+// if the charcode mod 2 is 1, this is spiky like kiki, if 0 then round like bouba
+  if (subject.charCodeAt(17) % 2 === 1) {
      const answer = new String("kiki");
-   	   }
+   	   }	   
   else {
      const answer = new String("bouba");
      	   }

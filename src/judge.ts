@@ -4,25 +4,28 @@ import { generateText, tool } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
 import { did, getAgent } from "./agent.js";
+import { AppBskyActorDefs } from "@atproto/api";
 
-export const judge = async (subject: string) => {
+export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
   const avatar = `avatars/${subject}.png`;
 
   // skip if avatar already exists
   if (await fs.stat(avatar).catch(() => null))
     throw new Error("Avatar already judged");
 
-  const agent = await getAgent();
-  const profile = await agent.getProfile({ actor: subject });
+  if (typeof subject === "string") {
+    const agent = await getAgent();
+    const { data } = await agent.getProfile({ actor: subject });
+    if (!data) throw new Error("Profile not found");
+    subject = data;
+  }
 
-  if (!profile.success) throw new Error("Profile not found");
-
-  if (profile.data.labels?.some((label) => label.src === did))
+  if (subject.labels?.some((label) => label.src === did))
     throw new Error("Already judged");
 
-  if (!profile.data.avatar) throw new Error("No avatar");
+  if (!subject.avatar) throw new Error("No avatar");
 
-  const image = await loadImage(profile.data.avatar);
+  const image = await loadImage(subject.avatar);
   const canvas = createCanvas(100, 100);
   const ctx = canvas.getContext("2d");
   ctx.drawImage(image, 0, 0, 100, 100);
@@ -36,8 +39,8 @@ export const judge = async (subject: string) => {
         content: [
           {
             type: "text",
-            text: `Is ${profile.data.displayName || profile.data.handle} (@${
-              profile.data.handle
+            text: `Is ${subject.displayName || subject.handle} (@${
+              subject.handle
             }) kiki or bouba? Bouba = round, soft, and curvy. Kiki = sharp, jagged, and angular.`,
           },
           {
@@ -54,7 +57,8 @@ export const judge = async (subject: string) => {
           answer: z.union([z.literal("kiki"), z.literal("bouba")]),
         }),
         execute: async ({ answer }) => {
-          console.log(`@${profile.data.handle} is ${answer}`);
+          const agent = await getAgent();
+          console.log(`@${subject.handle} is ${answer}`);
           await agent
             .withProxy("atproto_labeler", did)
             .api.tools.ozone.moderation.emitEvent({

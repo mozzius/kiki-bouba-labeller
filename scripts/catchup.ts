@@ -18,5 +18,5 @@ while (true) {
 }
 
 for (const like of likes) {
-  await judge(like.actor.did).catch((err) => console.error(err.message));
+  await judge(like.actor).catch((err) => console.error(err.message));
 }

@@ -20,10 +20,15 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
     subject = data;
   }
 
-  if (subject.labels?.some((label) => label.src === did))
+  if (subject.labels?.some((label) => label.src === did)) {
     throw new Error("Already judged");
+  }
 
   if (!subject.avatar) throw new Error("No avatar");
+
+  console.log(subject.handle);
+
+  throw new Error("stop!");
 
   const image = await loadImage(subject.avatar);
   const canvas = createCanvas(100, 100);

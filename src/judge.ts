@@ -20,15 +20,17 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
     subject = data;
   }
 
-  if (subject.labels?.some((label) => label.src === did)) {
-    throw new Error("Already judged");
+  if (subject.labels && subject.labels.some((label) => label.src === did)) {
+    throw new Error(
+      "Already " + subject.labels.find((label) => label.src === did)?.val
+    );
   }
 
   if (!subject.avatar) throw new Error("No avatar");
 
   console.log(subject.handle);
 
-  throw new Error("stop!");
+  throw new Error("Should parse");
 
   const image = await loadImage(subject.avatar);
   const canvas = createCanvas(100, 100);

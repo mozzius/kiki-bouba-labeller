@@ -18,5 +18,9 @@ while (true) {
 }
 
 for (const like of likes) {
-  await judge(like.actor).catch((err) => console.error(err.message));
+  let errors: string[] = []
+  await judge(like.actor).catch((err) => errors.push(err.message));
+  for (const error of new Set(errors)) {
+    console.error(errors.filter(e => e === error).length + "x", error);
+  }
 }

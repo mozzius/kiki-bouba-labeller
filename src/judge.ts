@@ -30,7 +30,7 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
   ctx.drawImage(image, 0, 0, 100, 100);
   await fs.writeFile(avatar, canvas.toBuffer());
 
-  await generateText({
+  generateText({
     model: openai("gpt-4o"),
     messages: [
       {
@@ -58,7 +58,7 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
         execute: async ({ answer }) => {
           const agent = await getAgent();
           console.log(`@${subject.handle} is ${answer}`);
-          const {success} = await agent
+          await agent
             .withProxy("atproto_labeler", did)
             .api.tools.ozone.moderation.emitEvent({
               event: {
@@ -68,15 +68,12 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
               },
               subject: {
                 $type: "com.atproto.admin.defs#repoRef",
-                did: subject,
+                did: subject.did,
               },
               createdBy: agent.session!.did,
               createdAt: new Date().toISOString(),
               subjectBlobCids: [],
-            });
-          if (!success) {
-            throw new Error("Failed to label");
-          }
+            }).catch((err) => console.error(err.message));
         },
       }),
     },

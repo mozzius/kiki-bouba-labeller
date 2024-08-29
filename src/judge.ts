@@ -24,10 +24,6 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
 
   if (!subject.avatar) throw new Error("No avatar");
 
-  console.log(subject.handle);
-
-  throw new Error("Should parse");
-
   const image = await loadImage(subject.avatar);
   const canvas = createCanvas(100, 100);
   const ctx = canvas.getContext("2d");

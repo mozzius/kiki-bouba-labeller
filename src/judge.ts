@@ -9,10 +9,6 @@ import { AppBskyActorDefs } from "@atproto/api";
 export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
   const avatar = `avatars/${subject}.png`;
 
-  // skip if avatar already exists
-  if (await fs.stat(avatar).catch(() => null))
-    throw new Error("Avatar already judged");
-
   if (typeof subject === "string") {
     const agent = await getAgent();
     const { data } = await agent.getProfile({ actor: subject });

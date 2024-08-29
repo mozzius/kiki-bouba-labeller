@@ -58,7 +58,7 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
         execute: async ({ answer }) => {
           const agent = await getAgent();
           console.log(`@${subject.handle} is ${answer}`);
-          await agent
+          const {success} = await agent
             .withProxy("atproto_labeler", did)
             .api.tools.ozone.moderation.emitEvent({
               event: {
@@ -74,6 +74,9 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
               createdAt: new Date().toISOString(),
               subjectBlobCids: [],
             });
+          if (!success) {
+            throw new Error("Failed to label");
+          }
         },
       }),
     },

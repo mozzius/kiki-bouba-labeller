@@ -17,10 +17,12 @@ while (true) {
   if (!cursor) break;
 }
 
+let errors: string[] = []
+
 for (const like of likes) {
-  let errors: string[] = []
   await judge(like.actor).catch((err) => errors.push(err.message));
-  for (const error of new Set(errors)) {
-    console.error(errors.filter(e => e === error).length + "x", error);
-  }
+}
+
+for (const error of new Set(errors)) {
+  console.error(errors.filter(e => e === error).length + "x", error);
 }

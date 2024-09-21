@@ -88,7 +88,7 @@ export async function removeLabel(subject: string) {
   console.log(`Removing labels from ${subject}:`, vals);
   await agent
     .withProxy("atproto_labeler", did)
-    .api.tools.ozone.moderation.emitEvent({
+    .tools.ozone.moderation.emitEvent({
       event: {
         $type: "tools.ozone.moderation.defs#modEventLabel",
         createLabelVals: [],

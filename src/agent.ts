@@ -1,8 +1,8 @@
-import { BskyAgent } from "@atproto/api";
+import { AtpAgent } from "@atproto/api";
 import "dotenv/config";
 
 export const getAgent = async () => {
-  const agent = new BskyAgent({
+  const agent = new AtpAgent({
     service: process.env.BSKY_SERVICE ?? "https://bsky.social",
   });
 
@@ -15,6 +15,6 @@ export const getAgent = async () => {
 
 export const did = await getAgent().then((agent) => agent.session!.did);
 
-BskyAgent.configure({
+AtpAgent.configure({
   appLabelers: [did],
 });

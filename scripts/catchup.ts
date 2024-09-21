@@ -9,7 +9,7 @@ const optOutsLikes: string[] = [];
 let cursor;
 
 while (true) {
-  const { data } = await agent.api.app.bsky.feed.getLikes({
+  const { data } = await agent.app.bsky.feed.getLikes({
     uri: `at://${did}/app.bsky.feed.post/3l4obq2dxhs2p`,
     limit: 100,
     cursor,
@@ -22,7 +22,7 @@ while (true) {
 cursor = undefined;
 
 while (true) {
-  const { data } = await agent.api.app.bsky.feed.getLikes({
+  const { data } = await agent.app.bsky.feed.getLikes({
     uri: `at://${did}/app.bsky.labeler.service/self`,
     limit: 100,
     cursor,

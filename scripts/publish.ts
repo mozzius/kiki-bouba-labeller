@@ -47,11 +47,11 @@ const config = {
   createdAt: new Date().toISOString(),
 } satisfies AppBskyLabelerService.Record;
 
-await agent.api.app.bsky.labeler.service.delete({
+await agent.app.bsky.labeler.service.delete({
   repo: agent.session!.did,
   rkey: "self",
 }).catch(() => null);
-await agent.api.app.bsky.labeler.service.create(
+await agent.app.bsky.labeler.service.create(
   {
     repo: agent.session!.did,
     rkey: "self",

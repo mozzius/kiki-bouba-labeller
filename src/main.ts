@@ -11,6 +11,7 @@ let cursor = 0;
 let interval: ReturnType<typeof setInterval>;
 const cursorFile = fs.readFileSync("cursor.txt", "utf8");
 if (cursorFile) console.log(`Initiate firehose at cursor ${cursorFile}`);
+else console.log("Initiate firehose (no cursor)");
 
 const jetstream = new Jetstream({
   wantedCollections: ["app.bsky.feed.like"],

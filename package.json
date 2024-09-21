@@ -18,8 +18,8 @@
   "dependencies": {
     "@ai-sdk/openai": "^0.0.33",
     "@atproto/api": "^0.12.21",
+    "@skyware/jetstream": "^0.1.5",
     "ai": "^3.2.5",
-    "atproto-firehose": "^0.2.2",
     "canvas": "^2.11.2",
     "dotenv": "^16.4.5",
     "tsx": "^4.15.7",

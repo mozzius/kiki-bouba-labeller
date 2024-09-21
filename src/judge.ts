@@ -73,9 +73,34 @@ export const judge = async (subject: string | AppBskyActorDefs.ProfileView) => {
               createdBy: agent.session!.did,
               createdAt: new Date().toISOString(),
               subjectBlobCids: [],
-            }).catch((err) => console.error(err.message));
+            })
+            .catch((err) => console.error(err.message));
         },
       }),
     },
   });
 };
+
+export async function removeLabel(subject: string) {
+  const agent = await getAgent();
+  const profile = await agent.getProfile({ actor: subject });
+  const vals = profile.data?.labels?.filter((label) => label.src === did) ?.map((label) => label.val);
+  console.log(`Removing labels from ${subject}:`, vals);
+  await agent
+    .withProxy("atproto_labeler", did)
+    .api.tools.ozone.moderation.emitEvent({
+      event: {
+        $type: "tools.ozone.moderation.defs#modEventLabel",
+        createLabelVals: [],
+        negateLabelVals: vals,
+      },
+      subject: {
+        $type: "com.atproto.admin.defs#repoRef",
+        did: subject,
+      },
+      createdBy: agent.session!.did,
+      createdAt: new Date().toISOString(),
+      subjectBlobCids: [],
+    })
+    .catch((err) => console.error(err.message));
+}
